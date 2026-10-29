@@ -9,7 +9,7 @@ export const SCHOOL_DATA = {
   telefono: "(01) 456-7890",
   whatsapp: "51987654321",
   email: "admision@mariareinadelcielo.edu.pe",
-  direccion: "Av. Próceres de la Independencia 1234, SJL, Lima",
+  direccion: "JR. PIEDRA DEL SOL NRO. 1778 URB. INCA MANCO CAPAC - SAN JUAN DE LURIGANCHO - LIMA",
   horario: "Lunes a Viernes: 7:30 am - 3:30 pm",
   libroReclamacionesUrl: "https://reclamos.tu-dominio.com/mariareinadelcielo",
   redes: {
