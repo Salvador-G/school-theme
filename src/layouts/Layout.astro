@@ -1,0 +1,184 @@
+---
+import "../styles/global.css";
+import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | {SCHOOL_DATA.nombre}</title>
+  </head>
+  <body
+    class="bg-brand-surface text-slate-800 antialiased flex flex-col min-h-screen"
+  >
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
+      >
+        <!-- LOGO -->
+        <a href="/" class="flex items-center gap-3 z-50">
+          <div
+            class="w-11 h-11 bg-brand-primary text-brand-accent font-bold flex items-center justify-center shape-leaf-right text-xl shrink-0"
+          >
+            SI
+          </div>
+          <div class="min-w-0">
+            <span
+              class="block font-bold text-brand-primary leading-tight text-base sm:text-lg truncate"
+              >{SCHOOL_DATA.nombre}</span
+            >
+            <span class="block text-xs text-slate-500">{SCHOOL_DATA.ugel}</span>
+          </div>
+        </a>
+
+        <!-- NAVEGACIÓN DESKTOP (Oculta en móviles) -->
+        <nav
+          class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700"
+        >
+          <a href="/#inicio" class="hover:text-brand-primary transition"
+            >Inicio</a
+          >
+          <a href="/#nosotros" class="hover:text-brand-primary transition"
+            >Nosotros</a
+          >
+          <a href="/#cachimbos" class="hover:text-brand-primary transition"
+            >Casos de Éxito</a
+          >
+
+          <!-- CTA ADMISIÓN -->
+          <a
+            href="/admision"
+            class="bg-brand-accent text-brand-primary font-bold px-5 py-2.5 shape-leaf-right shadow-sm hover:brightness-105 transition flex items-center gap-2.5"
+          >
+            <span class="relative flex h-2.5 w-2.5">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-secondary"
+              ></span>
+            </span>
+            Admisión {ADMISSION_YEAR}
+          </a>
+        </nav>
+
+        <!-- BOTÓN HAMBURGUESA (Solo en móviles) -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden p-2 text-brand-primary focus:outline-none"
+          aria-label="Abrir menú"
+        >
+          <svg
+            class="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <!-- Ícono de Menú -->
+            <path
+              id="menu-icon"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+            <!-- Ícono de X (Oculto por defecto) -->
+            <path
+              id="close-icon"
+              class="hidden"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- PANEL MENÚ MÓVIL (Se despliega hacia abajo) -->
+      <nav
+        id="mobile-menu"
+        class="hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-xl flex flex-col md:hidden"
+      >
+        <a
+          href="/#inicio"
+          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
+          >Inicio</a
+        >
+        <a
+          href="/#nosotros"
+          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
+          >Nosotros</a
+        >
+        <a
+          href="/#cachimbos"
+          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
+          >Casos de Éxito</a
+        >
+        <div class="px-6 py-5">
+          <a
+            href="/admision"
+            class="bg-brand-accent text-brand-primary font-bold px-5 py-3 shape-leaf-right shadow-sm flex items-center justify-center gap-2.5 w-full text-center"
+          >
+            <span class="relative flex h-2.5 w-2.5">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-secondary"
+              ></span>
+            </span>
+            Admisión {ADMISSION_YEAR}
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-brand-primary text-white pt-16 pb-10 rounded-tl-[4rem] mt-20"
+    >
+      <!-- (Tu contenido del footer se mantiene igual) -->
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 md:grid-cols-3"
+      >
+        <!-- ... Footer omitido por brevedad, usa el mismo de antes ... -->
+      </div>
+    </footer>
+
+    <!-- SCRIPT DEL MENÚ MÓVIL -->
+    <script>
+      const btn = document.getElementById("mobile-menu-btn");
+      const menu = document.getElementById("mobile-menu");
+      const menuIcon = document.getElementById("menu-icon");
+      const closeIcon = document.getElementById("close-icon");
+      const mobileLinks = document.querySelectorAll(".mobile-link");
+
+      function toggleMenu() {
+        menu?.classList.toggle("hidden");
+        menuIcon?.classList.toggle("hidden");
+        closeIcon?.classList.toggle("hidden");
+      }
+
+      // Abrir/Cerrar con el botón
+      btn?.addEventListener("click", toggleMenu);
+
+      // Cerrar el menú automáticamente al hacer clic en un enlace (ideal para Single Page navigation)
+      mobileLinks.forEach((link) => {
+        link.addEventListener("click", toggleMenu);
+      });
+    </script>
+  </body>
+</html>

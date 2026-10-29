@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* =========================================
+     SISTEMA DE COLORES DEL COLEGIO
+     Solo cambias estos hex para un nuevo cliente
+     ========================================= */
+  --color-brand-primary: #2e325b;       /* Azul oscuro: Header, fondos fuertes, títulos */
+  --color-brand-light: #3f447a;         /* Azul más claro para hovers (generado a partir del primary) */
+  --color-brand-accent: #d5b343;        /* Dorado: Botones principales, íconos, formas geométricas */
+  --color-brand-surface: #fafaf0;       /* Crema: Fondo general de la web (reemplaza al blanco) */
+  --color-brand-secondary: #ea3435;     /* Rojo: Etiquetas de urgencia, notificaciones o matrícula */
+}
+
+/* =========================================
+   UTILIDADES GEOMÉTRICAS PERSONALIZADAS
+   En Tailwind v4 se usa la directiva @utility
+   ========================================= */
+@utility shape-leaf-right {
+  border-radius: 3rem 0.25rem 3rem 0.25rem;
+}
+
+@utility shape-leaf-left {
+  border-radius: 0.25rem 3rem 0.25rem 3rem;
+}
+
+@utility shape-arch {
+  border-radius: 6rem 6rem 1rem 0.25rem;
+}
