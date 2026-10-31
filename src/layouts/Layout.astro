@@ -1,142 +1,137 @@
 ---
 import "../styles/global.css";
-import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
+import siteData from "../data/site.json";
+import { getGoogleFontsUrl, type PresetName } from "../lib/presets";
+import { buildSchemaData } from "../lib/schema";
 
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
 }
-const { title } = Astro.props;
+
+const site = siteData;
+const esDemo = import.meta.env.PUBLIC_DEMO === "true";
+const preset = (site.diseno.preset || "sereno") as PresetName;
+
+const {
+  title = site.seo.titulo,
+  description = site.seo.descripcion,
+} = Astro.props;
+
+const colores = site.diseno.colores;
+const cssVars = Object.entries({
+  "--color-brand-primary": colores?.primary,
+  "--color-brand-light": colores?.light,
+  "--color-brand-accent": colores?.accent,
+  "--color-brand-surface": colores?.surface,
+  "--color-brand-secondary": colores?.secondary,
+})
+  .filter(([, valor]) => Boolean(valor))
+  .map(([nombre, valor]) => `${nombre}: ${valor}`)
+  .join("; ");
+
+const navCatalog: Record<string, { texto: string; href: string }> = {
+  hero: { texto: "Inicio", href: "/#inicio" },
+  nosotros: { texto: "Nosotros", href: "/#nosotros" },
+  servicios: { texto: "Niveles", href: "/#niveles" },
+  cachimbos: { texto: "Casos de Éxito", href: "/#cachimbos" },
+};
+
+const navLinks = site.diseno.orden
+  .map((key) => navCatalog[key])
+  .filter(Boolean);
+
+const googleFontsUrl = getGoogleFontsUrl(preset, esDemo);
+const schemaData = buildSchemaData(site, Astro.site);
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang="es-PE" data-preset={preset} style={cssVars || undefined} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | {SCHOOL_DATA.nombre}</title>
+    <title>{title} | {site.nombre}</title>
+    <meta name="description" content={description} />
+    {esDemo && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={googleFontsUrl} rel="stylesheet" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
   </head>
-  <body
-    class="bg-brand-surface text-slate-800 antialiased flex flex-col min-h-screen"
-  >
+  <body class="flex min-h-screen flex-col bg-brand-surface text-slate-800 antialiased">
     <!-- HEADER -->
-    <header
-      class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200"
-    >
-      <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
-      >
-        <!-- LOGO -->
-        <a href="/" class="flex items-center gap-3 z-50">
-          <div
-            class="w-11 h-11 bg-brand-primary text-brand-accent font-bold flex items-center justify-center shape-leaf-right text-xl shrink-0"
-          >
-            SI
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <a href="/" class="z-50 flex items-center gap-3">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-primary text-xl font-bold text-brand-accent shape-leaf-right">
+            {site.siglas}
           </div>
           <div class="min-w-0">
-            <span
-              class="block font-bold text-brand-primary leading-tight text-base sm:text-lg truncate"
-              >{SCHOOL_DATA.nombre}</span
-            >
-            <span class="block text-xs text-slate-500">{SCHOOL_DATA.ugel}</span>
+            <span class="block truncate font-heading text-base leading-tight font-bold text-brand-primary sm:text-lg">
+              {site.nombre}
+            </span>
+            <span class="block text-xs text-slate-500">{site.ugel}</span>
           </div>
         </a>
 
-        <!-- NAVEGACIÓN DESKTOP (Oculta en móviles) -->
-        <nav
-          class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700"
-        >
-          <a href="/#inicio" class="hover:text-brand-primary transition"
-            >Inicio</a
-          >
-          <a href="/#nosotros" class="hover:text-brand-primary transition"
-            >Nosotros</a
-          >
-          <a href="/#cachimbos" class="hover:text-brand-primary transition"
-            >Casos de Éxito</a
-          >
+        <!-- NAVEGACIÓN DESKTOP -->
+        <nav class="hidden items-center gap-8 text-sm font-medium text-slate-700 md:flex">
+          {navLinks.map((item) => (
+            <a href={item.href} class="transition hover:text-brand-primary">
+              {item.texto}
+            </a>
+          ))}
 
-          <!-- CTA ADMISIÓN -->
           <a
             href="/admision"
-            class="bg-brand-accent text-brand-primary font-bold px-5 py-2.5 shape-leaf-right shadow-sm hover:brightness-105 transition flex items-center gap-2.5"
+            class="flex items-center gap-2.5 bg-brand-accent px-5 py-2.5 font-bold text-brand-primary shadow-sm transition hover:brightness-105 shape-leaf-right"
           >
             <span class="relative flex h-2.5 w-2.5">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-secondary"
-              ></span>
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-secondary opacity-75"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-secondary"></span>
             </span>
-            Admisión {ADMISSION_YEAR}
+            Admisión {site.anioAdmision}
           </a>
         </nav>
 
-        <!-- BOTÓN HAMBURGUESA (Solo en móviles) -->
+        <!-- BOTÓN HAMBURGUESA -->
         <button
           id="mobile-menu-btn"
-          class="md:hidden p-2 text-brand-primary focus:outline-none"
+          class="p-2 text-brand-primary focus:outline-none md:hidden"
           aria-label="Abrir menú"
         >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <!-- Ícono de Menú -->
-            <path
-              id="menu-icon"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-            <!-- Ícono de X (Oculto por defecto) -->
-            <path
-              id="close-icon"
-              class="hidden"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"></path>
+          <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
 
-      <!-- PANEL MENÚ MÓVIL (Se despliega hacia abajo) -->
+      <!-- PANEL MENÚ MÓVIL -->
       <nav
         id="mobile-menu"
-        class="hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-xl flex flex-col md:hidden"
+        class="absolute top-20 left-0 hidden w-full flex-col border-b border-slate-200 bg-white shadow-xl md:hidden"
       >
-        <a
-          href="/#inicio"
-          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
-          >Inicio</a
-        >
-        <a
-          href="/#nosotros"
-          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
-          >Sobre Nosotros</a
-        >
-        <a
-          href="/#cachimbos"
-          class="mobile-link px-6 py-4 border-b border-slate-100 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
-          >Casos de Éxito</a
-        >
+        {navLinks.map((item) => (
+          <a
+            href={item.href}
+            class="mobile-link border-b border-slate-100 px-6 py-4 font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-primary"
+          >
+            {item.texto}
+          </a>
+        ))}
         <div class="px-6 py-5">
           <a
             href="/admision"
-            class="bg-brand-accent text-brand-primary font-bold px-5 py-3 shape-leaf-right shadow-sm flex items-center justify-center gap-2.5 w-full text-center"
+            class="flex w-full items-center justify-center gap-2.5 bg-brand-accent px-5 py-3 text-center font-bold text-brand-primary shadow-sm shape-leaf-right"
           >
             <span class="relative flex h-2.5 w-2.5">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-secondary opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-secondary"
-              ></span>
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-secondary opacity-75"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-secondary"></span>
             </span>
-            Admisión {ADMISSION_YEAR}
+            Admisión {site.anioAdmision}
           </a>
         </div>
       </nav>
@@ -147,78 +142,66 @@ const { title } = Astro.props;
     </main>
 
     <!-- FOOTER -->
-    <!-- FOOTER -->
-    <footer
-      class="bg-brand-primary text-white pt-16 pb-10 rounded-tl-[4rem] mt-20"
-    >
-      <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 md:grid-cols-3"
-      >
+    <footer class="mt-20 rounded-tl-[4rem] bg-brand-primary pt-16 pb-10 text-white">
+      <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
         <div>
-          <h3 class="font-bold text-xl text-brand-accent">
-            {SCHOOL_DATA.nombre}
-          </h3>
-          <p class="mt-3 text-sm text-slate-300 leading-relaxed">
-            {SCHOOL_DATA.lema}
-          </p>
+          <h3 class="text-xl font-bold text-brand-accent">{site.nombre}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-slate-300">{site.lema}</p>
           <div class="mt-5 flex gap-4 text-sm font-semibold text-brand-accent">
-            <a
-              href={SCHOOL_DATA.redes.facebook}
-              target="_blank"
-              rel="noreferrer">Facebook</a
-            >
-            <a
-              href={SCHOOL_DATA.redes.instagram}
-              target="_blank"
-              rel="noreferrer">Instagram</a
-            >
-            <a href={SCHOOL_DATA.redes.tiktok} target="_blank" rel="noreferrer"
-              >TikTok</a
-            >
+            {site.contacto.redes.facebook && (
+              <a href={site.contacto.redes.facebook} target="_blank" rel="noreferrer">Facebook</a>
+            )}
+            {site.contacto.redes.instagram && (
+              <a href={site.contacto.redes.instagram} target="_blank" rel="noreferrer">Instagram</a>
+            )}
+            {site.contacto.redes.tiktok && (
+              <a href={site.contacto.redes.tiktok} target="_blank" rel="noreferrer">TikTok</a>
+            )}
           </div>
         </div>
 
         <div>
-          <h4
-            class="font-bold text-sm uppercase tracking-wider text-brand-accent"
-          >
+          <h4 class="text-sm font-bold tracking-wider text-brand-accent uppercase">
             Ubicación y Contacto
           </h4>
           <ul class="mt-3 space-y-2 text-sm text-slate-300">
-            <li>📍 {SCHOOL_DATA.direccion}</li>
-            <li>📞 {SCHOOL_DATA.telefono}</li>
-            <li>✉️ {SCHOOL_DATA.email}</li>
-            <li>🕒 {SCHOOL_DATA.horario}</li>
+            <li>📍 {site.contacto.direccion}</li>
+            <li>📞 {site.contacto.telefono}</li>
+            <li>✉️ {site.contacto.email}</li>
+            <li>🕒 {site.contacto.horario}</li>
           </ul>
         </div>
 
-        <div class="flex flex-col justify-between items-start md:items-end">
+        <div class="flex flex-col items-start justify-between md:items-end">
           <a
-            href={SCHOOL_DATA.libroReclamacionesUrl}
+            href={site.contacto.libroReclamacionesUrl}
             target="_blank"
             rel="noreferrer"
-            class="border border-white/30 bg-white/10 hover:bg-white/20 transition px-5 py-3 shape-leaf-left flex items-center gap-3"
+            class="flex items-center gap-3 border border-white/30 bg-white/10 px-5 py-3 transition hover:bg-white/20 shape-leaf-left"
           >
             <span class="text-2xl">📖</span>
             <div class="text-left">
-              <span
-                class="block text-xs uppercase tracking-wider text-brand-accent font-bold"
-                >Indecopi</span
-              >
-              <span class="block text-sm font-semibold"
-                >Libro de Reclamaciones</span
-              >
+              <span class="block text-xs font-bold tracking-wider text-brand-accent uppercase">Indecopi</span>
+              <span class="block text-sm font-semibold">Libro de Reclamaciones</span>
             </div>
           </a>
-          <p class="text-xs text-slate-400 mt-6">
-            © {new Date().getFullYear()}
-            {SCHOOL_DATA.nombre}. Todos los derechos reservados.
+          <p class="mt-6 text-xs text-slate-400">
+            © {new Date().getFullYear()} {site.nombre}. Todos los derechos reservados.
           </p>
         </div>
       </div>
     </footer>
 
-    <!-- SCRIPT DEL MENÚ MÓVIL -->
+    {/* BARRA FLOTANTE DE DEMO */}
+    {esDemo && (
+      <div class="fixed bottom-4 left-4 z-50 flex items-center gap-1 rounded-full border border-slate-300 bg-white/95 p-1.5 shadow-xl backdrop-blur-md">
+        <span class="hidden px-2 text-xs font-semibold tracking-wider text-slate-500 uppercase sm:inline-block">Estilo:</span>
+        <button data-demo-preset="sereno" class="rounded-full px-3.5 py-2 text-sm font-medium transition-colors hover:bg-slate-100">Sereno</button>
+        <button data-demo-preset="editorial" class="rounded-full px-3.5 py-2 text-sm font-medium transition-colors hover:bg-slate-100">Editorial</button>
+        <button data-demo-preset="cercano" class="rounded-full px-3.5 py-2 text-sm font-medium transition-colors hover:bg-slate-100">Cercano</button>
+      </div>
+    )}
+
     <script>
       const btn = document.getElementById("mobile-menu-btn");
       const menu = document.getElementById("mobile-menu");
@@ -232,13 +215,36 @@ const { title } = Astro.props;
         closeIcon?.classList.toggle("hidden");
       }
 
-      // Abrir/Cerrar con el botón
       btn?.addEventListener("click", toggleMenu);
-
-      // Cerrar el menú automáticamente al hacer clic en un enlace (ideal para Single Page navigation)
-      mobileLinks.forEach((link) => {
-        link.addEventListener("click", toggleMenu);
-      });
+      mobileLinks.forEach((link) => link.addEventListener("click", toggleMenu));
     </script>
+
+    {esDemo && (
+      <script is:inline>
+        const root = document.documentElement;
+        const btns = document.querySelectorAll('[data-demo-preset]');
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPreset = urlParams.get('estilo') || root.dataset.preset || 'sereno';
+
+        function setPreset(preset) {
+          root.dataset.preset = preset;
+          btns.forEach(b => {
+            if (b.dataset.demoPreset === preset) {
+              b.classList.add('bg-brand-primary', 'text-brand-accent');
+              b.classList.remove('text-slate-700', 'hover:bg-slate-100');
+            } else {
+              b.classList.remove('bg-brand-primary', 'text-brand-accent');
+              b.classList.add('text-slate-700', 'hover:bg-slate-100');
+            }
+          });
+          const newUrl = new URL(window.location);
+          newUrl.searchParams.set('estilo', preset);
+          window.history.replaceState({}, '', newUrl);
+        }
+
+        setPreset(currentPreset);
+        btns.forEach(btn => btn.addEventListener('click', () => setPreset(btn.dataset.demoPreset)));
+      </script>
+    )}
   </body>
 </html>

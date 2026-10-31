@@ -1,37 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
+import site from "../data/site.json";
 ---
 
-<Layout title={`Admisión ${ADMISSION_YEAR}`}>
-  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="grid lg:grid-cols-12 gap-12 items-start">
+<Layout title={`Admisión ${site.anioAdmision}`}>
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid items-start gap-12 lg:grid-cols-12">
       <!-- COLUMNA IZQUIERDA: INFORMACIÓN REGLAMENTARIA Y COSTOS -->
-      <div class="lg:col-span-7 space-y-8">
+      <div class="space-y-8 lg:col-span-7">
         <div>
           <span
-            class="bg-brand-accent text-brand-primary font-bold text-xs px-3 py-1 shape-leaf-right uppercase"
+            class="bg-brand-accent px-3 py-1 text-xs font-bold text-brand-primary uppercase shape-leaf-right"
           >
             Proceso de Matrícula
           </span>
-          <h1 class="text-4xl font-extrabold text-brand-primary mt-3">
-            Admisión Escolar {ADMISSION_YEAR}
+          <h1 class="mt-3 text-4xl font-extrabold text-brand-primary">
+            Admisión Escolar {site.anioAdmision}
           </h1>
-          <p class="mt-3 text-slate-600 leading-relaxed">
+          <p class="mt-3 leading-relaxed text-slate-600">
             Forma parte de nuestra comunidad educativa. Completa el formulario
             para agendar una visita guiada o recibir atención directa por
             secretaría.
           </p>
         </div>
 
-        <!-- TABLA DE COSTOS (MUY VALORADA POR LOS COLEGIOS POR LEY INDECOPI) -->
+        <!-- TABLA DE COSTOS (TRANSPARENCIA INDECOPI) -->
         <div
-          class="bg-white border border-slate-200 shape-leaf-left p-6 shadow-sm"
+          class="border border-slate-200 bg-white p-6 shadow-sm shape-leaf-left"
         >
           <h2 class="text-lg font-bold text-brand-primary">
-            Inversión Educativa {ADMISSION_YEAR}
+            Inversión Educativa {site.anioAdmision}
           </h2>
-          <p class="text-xs text-slate-500 mb-4">
+          <p class="mb-4 text-xs text-slate-500">
             Información transparente conforme al Código de Protección al
             Consumidor.
           </p>
@@ -39,7 +39,7 @@ import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
               <thead
-                class="border-b border-slate-200 text-xs uppercase text-slate-500"
+                class="border-b border-slate-200 text-xs text-slate-500 uppercase"
               >
                 <tr>
                   <th class="py-3">Nivel</th>
@@ -50,7 +50,7 @@ import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
               </thead>
               <tbody class="divide-y divide-slate-100">
                 {
-                  SCHOOL_DATA.costosAdmision.map((item) => (
+                  site.costosAdmision.map((item) => (
                     <tr>
                       <td class="py-3 font-semibold text-brand-primary">
                         {item.nivel}
@@ -73,57 +73,54 @@ import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
           <h3 class="font-bold text-brand-primary">
             Documentos requeridos para el traslado:
           </h3>
-          <ul class="mt-3 grid sm:grid-cols-2 gap-2 text-sm text-slate-700">
-            <li>• Copia de DNI del estudiante y padres</li>
-            <li>• Ficha Única de Matrícula (SIAGIE)</li>
-            <li>• Certificado de estudios previos</li>
-            <li>• Constancia de no adeudo del colegio de origen</li>
+          <ul class="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
+            {site.requisitosTraslado.map((req) => <li>• {req}</li>)}
           </ul>
         </div>
       </div>
 
       <!-- COLUMNA DERECHA: FORMULARIO DE ADMISIÓN -->
       <div
-        class="lg:col-span-5 bg-white border-2 border-brand-primary shape-leaf-right p-8 shadow-lg"
+        class="border-2 border-brand-primary bg-white p-8 shadow-lg shape-leaf-right lg:col-span-5"
       >
         <h2 class="text-2xl font-extrabold text-brand-primary">
           Reserva tu Vacante
         </h2>
-        <p class="text-sm text-slate-500 mt-1">
+        <p class="mt-1 text-sm text-slate-500">
           Te contactaremos en menos de 24 horas hábiles.
         </p>
 
         <form class="mt-6 space-y-4" action="#" method="POST">
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-700"
-              >Nombre del Padre / Apoderado *</label
-            >
+            <label class="block text-xs font-bold text-slate-700 uppercase">
+              Nombre del Padre / Apoderado *
+            </label>
             <input
               type="text"
               required
-              class="mt-1 w-full border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
+              class="mt-1 w-full rounded-(--radius-btn) border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
               placeholder="Ej. Juan Pérez"
             />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold uppercase text-slate-700"
-                >WhatsApp / Celular *</label
-              >
+              <label class="block text-xs font-bold text-slate-700 uppercase">
+                WhatsApp / Celular *
+              </label>
               <input
                 type="tel"
                 required
-                class="mt-1 w-full border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
+                class="mt-1 w-full rounded-(--radius-btn) border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
                 placeholder="999 888 777"
               />
             </div>
             <div>
-              <label class="block text-xs font-bold uppercase text-slate-700"
-                >Nivel de interés *</label
-              >
+              <label class="block text-xs font-bold text-slate-700 uppercase">
+                Nivel de interés *
+              </label>
               <select
-                class="mt-1 w-full border border-slate-300 bg-white px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
+                class="mt-1 w-full rounded-(--radius-btn) border border-slate-300 bg-white px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
               >
                 <option>Inicial</option>
                 <option>Primaria</option>
@@ -133,30 +130,30 @@ import { SCHOOL_DATA, ADMISSION_YEAR } from "../data/school.config";
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-700"
-              >Grado al que postula en {ADMISSION_YEAR}</label
-            >
+            <label class="block text-xs font-bold text-slate-700 uppercase">
+              Grado al que postula en {site.anioAdmision}
+            </label>
             <input
               type="text"
-              class="mt-1 w-full border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
-              placeholder="Ej. 3ro de Primaria"
+              class="mt-1 w-full rounded-(--radius-btn) border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
+              placeholder="Ej. 3.º de Primaria"
             />
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase text-slate-700"
-              >Consulta adicional (Opcional)</label
-            >
+            <label class="block text-xs font-bold text-slate-700 uppercase">
+              Consulta adicional (Opcional)
+            </label>
             <textarea
               rows="3"
-              class="mt-1 w-full border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
+              class="mt-1 w-full rounded-(--radius-btn) border border-slate-300 px-3.5 py-2.5 text-sm focus:border-brand-primary focus:outline-none"
               placeholder="Quisiera consultar sobre horarios o talleres..."
             ></textarea>
           </div>
 
           <button
             type="submit"
-            class="w-full bg-brand-primary text-brand-accent font-bold py-3.5 shape-leaf-left hover:bg-brand-light transition shadow-md"
+            class="w-full bg-brand-primary py-3.5 font-bold text-brand-accent shadow-md transition hover:bg-brand-light shape-leaf-left"
           >
             Enviar Solicitud de Admisión
           </button>

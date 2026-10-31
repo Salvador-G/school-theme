@@ -1,0 +1,150 @@
+{
+  "nombre": "[Nombre del Colegio]",
+  "siglas": "SI",
+  "ugel": "UGEL [N.º]",
+  "lema": "Formación integral con valores y excelencia académica para liderar el mañana.",
+  "anioAdmision": "2027",
+  "seo": {
+    "titulo": "[Nombre del Colegio] | Admisión 2027",
+    "descripcion": "Institución educativa con niveles de Inicial, Primaria y Secundaria. Formación en valores y alto rendimiento preuniversitario."
+  },
+  "diseno": {
+    "preset": "sereno",
+    "colores": {
+      "primary": "#2e325b",
+      "light": "#3f447a",
+      "accent": "#d5b343",
+      "surface": "#fafaf0",
+      "secondary": "#ea3435"
+    },
+    "variantes": {
+      "hero": "dividido",
+      "servicios": "rejilla"
+    },
+    "orden": [
+      "hero",
+      "nosotros",
+      "servicios",
+      "cachimbos"
+    ]
+  },
+  "slides": [
+    {
+      "titulo": "Educación con valores y exigencia para un futuro brillante",
+      "subtitulo": "Acompañamos cada etapa escolar con docentes especializados, inglés intensivo y preparación preuniversitaria.",
+      "bgImage": "/img/campus-1.webp",
+      "studentPng": "/img/estudiante-1.webp"
+    },
+    {
+      "titulo": "Preparación de alto nivel desde primeros grados",
+      "subtitulo": "Metodología activa, laboratorios equipados y talleres formativos que potencian el talento de tus hijos.",
+      "bgImage": "/img/campus-2.webp",
+      "studentPng": "/img/estudiante-2.webp"
+    }
+  ],
+  "nosotros": {
+    "etiqueta": "Nuestra Propuesta",
+    "titulo": "Educación que transforma el futuro",
+    "historia": "Contamos con una sólida trayectoria formando estudiantes íntegros, críticos y preparados para los retos universitarios y profesionales.",
+    "pilares": [
+      "Formación en valores y disciplina positiva",
+      "Sistema preuniversitario desde 3.º de secundaria",
+      "Inglés intensivo y certificaciones tecnológicas",
+      "Departamento psicopedagógico permanente"
+    ],
+    "stats": [
+      { "numero": "+25", "label": "Años de trayectoria educativa" },
+      { "numero": "95%", "label": "Ingresantes en su primer intento" },
+      { "numero": "100%", "label": "Docentes titulados y especializados" }
+    ]
+  },
+  "serviciosTexto": {
+    "etiqueta": "Propuesta Pedagógica",
+    "titulo": "Nuestros Niveles Educativos",
+    "subtitulo": "Un plan curricular diseñado para cada etapa del desarrollo intelectual y emocional."
+  },
+  "servicios": [
+    {
+      "nombre": "Nivel Inicial",
+      "edades": "3 a 5 años",
+      "descripcion": "Desarrollo psicomotriz, estimulación temprana, inmersión lúdica al inglés y socialización en ambientes seguros.",
+      "href": "/admision"
+    },
+    {
+      "nombre": "Nivel Primaria",
+      "edades": "1.º a 6.º grado",
+      "descripcion": "Pensamiento lógico-matemático, comprensión lectora, robótica educativa y talleres artísticos y deportivos.",
+      "href": "/admision"
+    },
+    {
+      "nombre": "Nivel Secundaria",
+      "edades": "1.º a 5.º año",
+      "descripcion": "Exigencia académica preuniversitaria, simulacros tipo examen de admisión, orientación vocacional y liderazgo.",
+      "href": "/admision"
+    }
+  ],
+  "cachimbos": [
+    {
+      "nombre": "[Nombre del Alumno 1]",
+      "universidad": "UNMSM",
+      "puesto": "1.º Puesto Cómputo General",
+      "carrera": "Medicina Humana",
+      "promocion": "2026",
+      "foto": "/img/cachimbo-1.webp"
+    },
+    {
+      "nombre": "[Nombre del Alumno 2]",
+      "universidad": "UNI",
+      "puesto": "Ingreso Directo Escolares",
+      "carrera": "Ingeniería Civil",
+      "promocion": "2026",
+      "foto": "/img/cachimbo-2.webp"
+    },
+    {
+      "nombre": "[Nombre del Alumno 3]",
+      "universidad": "PUCP",
+      "puesto": "Tercio Superior ITS",
+      "carrera": "Derecho",
+      "promocion": "2026",
+      "foto": "/img/cachimbo-3.webp"
+    }
+  ],
+  "costosAdmision": [
+    {
+      "nivel": "Inicial (3, 4 y 5 años)",
+      "cuotaIngreso": "Exonerado",
+      "matricula": "[350]",
+      "pension": "[350]"
+    },
+    {
+      "nivel": "Primaria (1.º a 6.º)",
+      "cuotaIngreso": "Exonerado",
+      "matricula": "[400]",
+      "pension": "[400]"
+    },
+    {
+      "nivel": "Secundaria (1.º a 5.º)",
+      "cuotaIngreso": "Exonerado",
+      "matricula": "[450]",
+      "pension": "[450]"
+    }
+  ],
+  "requisitosTraslado": [
+    "Copia de DNI del estudiante y padres",
+    "Ficha Única de Matrícula (SIAGIE)",
+    "Certificado de estudios previos",
+    "Constancia de no adeudo del colegio de origen"
+  ],
+  "contacto": {
+    "direccion": "[Av. Principal 123, Distrito]",
+    "telefono": "[+51 999 888 777]",
+    "email": "[admision@colegio.edu.pe]",
+    "horario": "Lunes a Viernes: 8:00 a.m. - 4:00 p.m.",
+    "redes": {
+      "facebook": "https://facebook.com",
+      "instagram": "https://instagram.com",
+      "tiktok": "https://tiktok.com"
+    },
+    "libroReclamacionesUrl": "[URL del Libro de Reclamaciones]"
+  }
+}

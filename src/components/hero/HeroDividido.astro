@@ -1,0 +1,82 @@
+---
+import type { SiteConfig } from "../../lib/publish-guard";
+
+interface Props {
+  site: SiteConfig;
+}
+
+const { site } = Astro.props;
+---
+
+<section
+  id="inicio"
+  class="mx-auto max-w-7xl px-4 pt-6 pb-(--space-section) sm:px-6 lg:px-8"
+>
+  <div
+    class="relative flex min-h-[480px] items-center overflow-hidden bg-brand-primary text-white shadow-xl shape-leaf-right"
+  >
+    <div
+      id="slide-bg"
+      class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay transition-opacity duration-500 ease-in-out"
+      style={`background-image: url('${site.slides[0].bgImage}')`}
+    >
+    </div>
+
+    <div
+      class="pointer-events-none absolute -right-20 -bottom-20 h-96 w-96 rounded-full bg-brand-accent/30 blur-2xl"
+    >
+    </div>
+
+    <div
+      class="relative z-10 grid w-full items-center gap-8 p-8 md:grid-cols-12 md:p-14"
+    >
+      <div class="space-y-6 md:col-span-7">
+        <span
+          class="inline-block bg-brand-accent px-3 py-1 text-xs font-bold text-brand-primary uppercase shape-leaf-left"
+        >
+          Matrículas Abiertas {site.anioAdmision}
+        </span>
+        <h1
+          id="slide-title"
+          class="text-4xl leading-tight font-extrabold transition-opacity duration-500 sm:text-5xl"
+        >
+          {site.slides[0].titulo}
+        </h1>
+        <p
+          id="slide-sub"
+          class="max-w-xl text-lg text-slate-200 transition-opacity duration-500"
+        >
+          {site.slides[0].subtitulo}
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a
+            href="/admision"
+            class="bg-brand-accent px-7 py-3.5 font-bold text-brand-primary transition hover:brightness-110 shape-leaf-right"
+          >
+            Solicitar Vacante →
+          </a>
+          <a
+            href="#cachimbos"
+            class="border border-white/40 px-6 py-3.5 text-white backdrop-blur-sm transition hover:bg-white/10 shape-leaf-left"
+          >
+            Ver Ingresantes
+          </a>
+        </div>
+      </div>
+
+      <div class="relative flex items-end justify-center md:col-span-5">
+        <div
+          class="relative flex h-72 w-64 items-end justify-center bg-brand-accent shadow-inner shape-arch"
+        >
+          <img
+            id="slide-img"
+            src={site.slides[0].studentPng}
+            alt="Estudiante"
+            class="-mt-12 h-80 w-60 object-contain drop-shadow-2xl transition-opacity duration-500"
+            onerror="this.style.display='none'"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

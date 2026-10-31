@@ -1,0 +1,62 @@
+---
+import type { SiteConfig } from "../../lib/publish-guard";
+
+interface Props {
+  site: SiteConfig;
+}
+
+const { site } = Astro.props;
+---
+
+<section
+  id="niveles"
+  class="mx-auto max-w-7xl px-4 py-(--space-section) sm:px-6 lg:px-8"
+>
+  <div class="grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28">
+        <span
+          class="inline-block bg-brand-accent/30 px-3 py-1 text-xs font-bold tracking-widest text-brand-primary uppercase shape-leaf-right"
+        >
+          {site.serviciosTexto.etiqueta}
+        </span>
+        <h2 class="mt-3 text-3xl font-extrabold text-brand-primary">
+          {site.serviciosTexto.titulo}
+        </h2>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">
+          {site.serviciosTexto.subtitulo}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="divide-y divide-slate-200 border-y border-slate-200 lg:col-span-8"
+    >
+      {
+        site.servicios.map((nivel) => (
+          <article class="flex flex-col justify-between gap-4 py-7 sm:flex-row sm:items-center">
+            <div class="max-w-xl">
+              <div class="flex items-center gap-3">
+                <h3 class="text-xl font-bold text-brand-primary">
+                  {nivel.nombre}
+                </h3>
+                <span class="bg-brand-accent/30 px-2.5 py-0.5 text-xs font-bold text-brand-primary shape-leaf-left">
+                  {nivel.edades}
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                {nivel.descripcion}
+              </p>
+            </div>
+            <a
+              href={nivel.href || "/admision"}
+              class="shrink-0 bg-brand-primary px-5 py-2.5 text-xs font-bold text-brand-accent transition hover:bg-brand-light shape-leaf-right"
+            >
+              Vacantes →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
